@@ -1,0 +1,123 @@
+/* CreateUser.css - Theme: Class */
+
+.add {
+    background-color: #f8f9fa;
+    padding: 0rem 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin: 2rem auto;
+    width: 70%;
+    margin-left: max(5vw,25px);
+    margin-top: 50px;
+    color: #6d6d6d;
+    font-size: 16px;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.add form {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.add p {
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.add input[type="text"],
+.add select {
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #495057;
+    font-size: 1rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.add input[type="checkbox"] {
+    margin-top: 0.5rem;
+}
+
+.add select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+}
+
+.add-Domain {
+    display: flex;
+    justify-content: space-between;
+}
+
+.add-domain,
+.add-available {
+    width: 48%;
+}
+
+.add-available{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    align-items: center;
+justify-content: center;
+}
+
+.add-available input{
+    margin: 10px;
+}
+.add-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.add-btn:hover {
+    background-color: #0056b3;
+}
+
+.add input[type="text"]:focus,
+.add select:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+h1{
+    padding-bottom: 30px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .add {
+        padding: 1rem;
+    }
+    
+    .add form {
+        padding: 1rem;
+    }
+    
+    .add-Domain {
+        flex-direction: column;
+    }
+    
+    .add-domain,
+    .add-available {
+        width: 100%;
+    }
+}
