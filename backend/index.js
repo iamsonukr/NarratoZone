@@ -15,7 +15,7 @@ app.use(cors())
 app.use('/api/blog',blogRouter)
 
 app.get('/',(req,res)=>{
-    res.send("It is done")
+    res.send('<h1>Resoult backend is running</h1>')
 })
 
 app.use('/images',express.static('uploads'))
