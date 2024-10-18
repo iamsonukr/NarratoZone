@@ -26,6 +26,10 @@
     border: 1px solid #e9ecef;
 }
 
+.upload-preview{
+    width: 40vw;
+}
+
 .add p {
     color: #495057;
     font-weight: 600;

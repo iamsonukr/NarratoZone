@@ -13,11 +13,12 @@ const listBlog = async (req, res) => {
 
 // Create a new blog
 const createBlog = async (req, res) => {
+    let image_filename= `${req.file.filename}`
     const newBlog = new blogModel({
         title: req.body.title,
         description: req.body.description,
         date: req.body.date || Date.now(), // Use request date or default to now
-        image: req.body.image,
+        image: image_filename,
         author: req.body.author,
         tags: req.body.tags,
     });
@@ -33,7 +34,7 @@ const createBlog = async (req, res) => {
 
 // Remove a blog by ID
 const removeBlog = async (req, res) => {
-    const blogID = req.body.id;
+    const blogID = req.params.id;
     try {
         const deletedBlog = await blogModel.findByIdAndDelete(blogID);
         if (deletedBlog) {
@@ -48,26 +49,55 @@ const removeBlog = async (req, res) => {
 };
 
 // Update a blog by ID
+// const updateBlog = async (req, res) => {
+//     const blogID = req.params.id;
+//     try {
+//         const updatedBlog = await blogModel.findByIdAndUpdate(
+//             blogID,
+//             {
+//                 title: req.body.title,
+//                 description: req.body.description,
+//                 date: req.body.date,
+//                 image: req.body.image,
+//                 author: req.body.author,
+//                 tags: req.body.tags,
+//             },
+//             { new: true } // Return the updated document
+//         );
+//         if (!updatedBlog) {
+//             res.json({ success: false, message: "Blog not found" });
+//         } else {
+//             res.json({ success: true, data: updatedBlog });
+//         }
+//     } catch (error) {
+//         console.log(error);
+//         res.json({ success: false, message: "Blog updating failed", error: error });
+//     }
+// };
+
 const updateBlog = async (req, res) => {
-    const blogID = req.body.id;
+    const blogId = req.params.id; // Assuming the blog ID is passed in the URL params
     try {
-        const updatedBlog = await blogModel.findByIdAndUpdate(
-            blogID,
-            {
-                title: req.body.title,
-                description: req.body.description,
-                date: req.body.date,
-                image: req.body.image,
-                author: req.body.author,
-                tags: req.body.tags,
-            },
-            { new: true } // Return the updated document
-        );
-        if (!updatedBlog) {
-            res.json({ success: false, message: "Blog not found" });
-        } else {
-            res.json({ success: true, data: updatedBlog });
+        // Find the blog by its ID
+        let blog = await blogModel.findById(blogId);
+        if (!blog) {
+            return res.json({ success: false, message: "Blog not found" });
         }
+
+        // Update the blog fields
+        blog.title = req.body.title || blog.title;
+        blog.description = req.body.description || blog.description;
+        blog.date = req.body.date || blog.date; // Update date if provided
+        if (req.file) { // If a new image is provided
+            blog.image = req.file.filename;
+        }
+        blog.author = req.body.author || blog.author;
+        blog.tags = req.body.tags || blog.tags;
+
+        // Save the updated blog
+        await blog.save();
+        console.log(blog);
+        res.json({ success: true, message: "Blog Updated", data: blog });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: "Blog updating failed", error: error });
@@ -76,12 +106,14 @@ const updateBlog = async (req, res) => {
 
 // Get a single blog by ID
 const getSingleBlog = async (req, res) => {
+    console.log("MEssage enttere in the fuct")
     const blogID = req.params.id;
     try {
         const blog = await blogModel.findById(blogID);
         if (!blog) {
             res.json({ success: false, message: "Blog not found" });
         } else {
+            console.log(blog)
             res.json({ success: true, data: blog });
         }
     } catch (error) {

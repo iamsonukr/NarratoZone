@@ -18,6 +18,8 @@ app.get('/',(req,res)=>{
     res.send("It is done")
 })
 
+app.use('/images',express.static('uploads'))
+
 app.listen(5001,()=>{
     console.log("serxver is listening ")
 })

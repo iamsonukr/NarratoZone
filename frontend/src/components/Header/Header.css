@@ -1,0 +1,42 @@
+.head-image{
+    margin-top: 6vh;
+    background-image: url('../../assets/sunflower-field.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: white;
+    height: 60vh;    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+
+}
+
+.head-image h1 span{
+    text-align: left;
+    font-style: italic;
+}
+.head-text{
+    font-size: 48px;
+}
+
+.quote-author{
+    font-size: 18px;
+    text-align: left;
+}
+
+@media (max-width:728px) {
+    .head-image{
+        padding: 0px 20px;
+        height: 40vh;
+    }
+    .head-text{
+        font-size: 28px;
+        
+    }
+    h1{
+        font-size: 28px;
+    }
+    
+}

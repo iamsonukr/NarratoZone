@@ -1,28 +1,32 @@
 import { useState } from 'react'
 
-import CreateUser from './pages/Createuser/CreateUser'
-import UserList from './pages/UserList/UserList'
+import CreateBlog from './pages/CreateBlog/CreateBlog'
+import BlogList from './pages/BlogList/BlogList'
 import { Routes, Route } from 'react-router-dom'
-import Sidebar from './components/Sidebar/Sidebar'
+import Navbar from './components/Navbar/Navbar'
+import Header from './components/Header/Header'
+import './App.css'
+import { Toaster } from 'react-hot-toast'
 // import TeamManagement from './pages/TeamManagement/TeamManagement'
 
 
 function App() {
   const [count, setCount] = useState(0)
 
+  const url='http://localhost:5001'
+
   return (
     <>
-
-
-
     <div className="app-component">
-      <Sidebar/>
+      <Navbar/>
+      <Header/>
+
       <Routes>
-        {/* <Route path="/create" element={<CreateUser />}/> */}
-        <Route path="/create/:id?" element={<CreateUser />}/>
-        <Route path='/' element={<UserList/>}/>
-        <Route path='/list' element={<UserList/>}/>
-        {/* <Route path='/team-management' element={<TeamManagement/>}/> */}
+    
+        <Route path='/' element={<BlogList url={url}/>}/>
+        <Route path="/create/:id?" element={<CreateBlog url={url}/>}/>
+        <Route path='/list' element={<BlogList url={url}/>}/>
+       
       </Routes>
     </div>
     </>
