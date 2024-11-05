@@ -25,7 +25,8 @@ function App() {
         <Route path='/' element={<BlogList url={url}/>}/>
         <Route path="/create/:id?" element={<CreateBlog url={url}/>}/>
         <Route path='/list' element={<BlogList url={url}/>}/>
-       
+        
+        
       </Routes>
     </div>
     </>
