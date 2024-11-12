@@ -22,10 +22,6 @@ const Navbar = ({ setShowLogin }) => {
     navigate('/')
     toast.success("Logged out Successfully.")
   }
-  useEffect(() => {
-    console.log(token)
-  }, [token])
-
 
   return (
     <div className='navbar'>

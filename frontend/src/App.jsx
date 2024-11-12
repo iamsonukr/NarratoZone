@@ -5,7 +5,6 @@ import CreateBlog from './pages/CreateBlog/CreateBlog'
 import BlogList from './pages/BlogList/BlogList'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
-import Header from './components/Header/Header'
 import './App.css'
 import LoginPopup from './components/LoginPopup/LoginPopup'
 import Footer from './components/Footer/Footer'
@@ -17,8 +16,8 @@ import LoginToView from './pages/LoginToView/LoginToView';
 function App() {
   const[showLogin,setShowLogin]=useState(false)
 
-  // const url='https://resoultpartnersbackend.onrender.com'
-  const url='http://localhost:5001'
+  const url='https://resoultpartnersbackend.onrender.com'
+  // const url='http://localhost:5001'
   const {token}=useContext(StoreContext)
 
 
