@@ -17,6 +17,7 @@ const blogSchema = new mongoose.Schema({
     },
     image: {
         type: String,
+        // default:`defaultBlog.jpg`,
         required: false, // Image is optional
     },
     author: {
@@ -26,6 +27,10 @@ const blogSchema = new mongoose.Schema({
     tags: {
         type: [String], // Array of tags for categorizing the blog
         required: false,
+    },
+    likes:{
+        type:Number,
+        default:0
     }
 });
 

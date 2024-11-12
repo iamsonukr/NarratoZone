@@ -1,0 +1,19 @@
+.filters-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.filter-label {
+    font-size: 1em;
+    color: black;
+    margin-right: 10px;
+}
+
+.filter-select {
+    padding: 8px;
+    border: 1px solid #dea193; /* Border color */
+    border-radius: 4px;
+    width: 200px;
+    outline: none;
+}

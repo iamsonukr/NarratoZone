@@ -1,4 +1,4 @@
-import blogModel from "../models/model.blogs.js";
+import blogModel from "../models/blogs.model.js";
 
 // List all blogs
 const listBlog = async (req, res) => {
@@ -75,6 +75,24 @@ const removeBlog = async (req, res) => {
 //     }
 // };
 
+// increasing the like of blog
+
+const increaseLike=async(req,res)=>{
+    const blogId=req.params.id
+    try {
+        const incLike=await blogModel.findByIdAndUpdate(blogId,{$inc:{likes:1}},{new:true});
+        if(incLike){
+            res.send({message:"You liked this post"})
+        }else{
+            res.send({message:"Error liking this post"})
+        }
+        
+    } catch (error) {
+        res.send({message:"Error liking this post Check the eligibility"})
+        console.log(error)
+    }
+}
+
 const updateBlog = async (req, res) => {
     const blogId = req.params.id; // Assuming the blog ID is passed in the URL params
     try {
@@ -104,6 +122,7 @@ const updateBlog = async (req, res) => {
     }
 };
 
+
 // Get a single blog by ID
 const getSingleBlog = async (req, res) => {
     console.log("MEssage enttere in the fuct")
@@ -122,4 +141,4 @@ const getSingleBlog = async (req, res) => {
     }
 };
 
-export { listBlog, createBlog, removeBlog, updateBlog, getSingleBlog };
+export { listBlog, createBlog, removeBlog, updateBlog, getSingleBlog ,increaseLike};

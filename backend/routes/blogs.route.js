@@ -1,6 +1,6 @@
 import express from "express"
 import multer from "multer"
-import { createBlog, getSingleBlog, listBlog, removeBlog, updateBlog } from "../controllers/blogs.controller.js"
+import { createBlog, getSingleBlog, listBlog, removeBlog, updateBlog,increaseLike } from "../controllers/blogs.controller.js"
 
 const blogRouter=express.Router()
 
@@ -18,10 +18,13 @@ const multerUpload = multer({storage:storage})
 
 blogRouter.get('/blogs',listBlog)
 
+
 blogRouter.post('/create',multerUpload.single('image'),createBlog)
 
 blogRouter.post('/update/:id',multerUpload.single('image'),updateBlog)
 blogRouter.post('/getsingle/:id',getSingleBlog)
+
+blogRouter.post('/like/:id',increaseLike)
 
 blogRouter.post('/remove/:id',removeBlog)
 
