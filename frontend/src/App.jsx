@@ -10,6 +10,9 @@ import LoginPopup from './components/LoginPopup/LoginPopup'
 import Footer from './components/Footer/Footer'
 import { StoreContext } from './context/StoreContext';
 import LoginToView from './pages/LoginToView/LoginToView';
+import Sample from './pages/Sample/Sample';
+import MyForm from './pages/MyForm/MyForm';
+import BlogIdeaGenerator from './pages/BlogIdeaGenerator/BlogIdeaGenerator';
 // import TeamManagement from './pages/TeamManagement/TeamManagement'
 
 
@@ -34,6 +37,8 @@ function App() {
         {token?<Route path="/create/:id?" element={<CreateBlog url={url}/>}/>
         :<Route path="/create/:id?" element={<LoginToView setShowLogin={setShowLogin}/>}/>}
         <Route path='/list' element={<BlogList url={url}/>}/>
+        <Route path='/sample' element={<MyForm />} />
+        <Route path='/idea' element={<BlogIdeaGenerator />} />
       </Routes>
       <Footer/>
     </div>

@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import { blogRouter } from './routes/blogs.route.js';
 import {userRouter} from './routes/user.route.js';
 import cors from 'cors'
+import { ideaRouter } from './routes/idea.routes.js';
+
 
 dotenv.config();
 const app=express()
@@ -15,12 +17,16 @@ app.use(cors())
 
 app.use('/api/blog',blogRouter)
 app.use('/api/user',userRouter)
+app.use('/api/idea',ideaRouter)
 
 app.get('/',(req,res)=>{
     res.send('<h1>Resoult backend is running</h1>')
 })
 
 app.use('/images',express.static('uploads'))
+
+
+
 
 app.listen(5001,()=>{
     console.log("serxver is listening ")

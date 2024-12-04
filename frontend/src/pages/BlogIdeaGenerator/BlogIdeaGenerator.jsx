@@ -1,58 +1,65 @@
+// BlogIdeaGenerator.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import './BlogIdeaGenerator.css';
 
 function BlogIdeaGenerator() {
     const [topic, setTopic] = useState('');
     const [ideas, setIdeas] = useState('');
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    const generateBlogIdeas = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.post(
-                'https://api.openai.com/v1/chat/completions',
-                {
-                    model: "gpt-4",
-                    messages: [
-                        { role: "system", content: "You are an assistant that provides blog topic ideas." },
-                        { role: "user", content: `Generate blog ideas related to: ${topic}` }
-                    ]
-                },
-                {
-                    headers: {
-                        'Authorization': `Bearer YOUR_OPENAI_API_KEY`,
-                        'Content-Type': 'application/json'
-                    }
-                }
-            );
-            setIdeas(response.data.choices[0].message.content);
-        } catch (error) {
-            console.error("Error generating ideas:", error);
-            setIdeas("Could not fetch blog ideas. Please try again later.");
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!topic.trim()) {
+            setError('Please enter a topic');
+            return;
         }
-        setLoading(false);
+
+        setLoading(true);
+        setError('');
+
+        try {
+            const response = await axios.post('http://localhost:5001/api/idea/chatgpt', { topic });
+            setIdeas(response.data.ideas);
+        } catch (err) {
+            setError(err.message);
+            console.error('Error:', err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
-            <h2>Blog Idea Generator</h2>
-            <input
-                type="text"
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-                placeholder="Enter a topic"
-                style={{ padding: '10px', width: '300px', fontSize: '16px' }}
-            />
-            <button onClick={generateBlogIdeas} style={{ marginLeft: '10px', padding: '10px', fontSize: '16px' }}>
-                Generate Ideas
-            </button>
+        <div className="blog-generator">
+            <h1>Blog Idea Generator</h1>
+            
+            <form onSubmit={handleSubmit} className="input-form">
+                <input
+                    type="text"
+                    value={topic}
+                    onChange={(e) => setTopic(e.target.value)}
+                    placeholder="Enter your topic..."
+                    disabled={loading}
+                    className="input-field"
+                />
+                <button 
+                    type="submit" 
+                    disabled={loading}
+                    className="submit-button"
+                >
+                    {loading ? 'Generating...' : 'Generate Ideas'}
+                </button>
+            </form>
 
-            {loading ? (
-                <p>Loading ideas...</p>
-            ) : (
-                <div style={{ marginTop: '20px', textAlign: 'left' }}>
-                    <h3>Generated Blog Ideas:</h3>
-                    <p>{ideas}</p>
+            {error && <div className="error-message">{error}</div>}
+            
+            {ideas && (
+                <div className="ideas-container">
+                    <h2>Generated Ideas:</h2>
+                    <div className="ideas-content">
+                        {ideas}
+                    </div>
                 </div>
             )}
         </div>
