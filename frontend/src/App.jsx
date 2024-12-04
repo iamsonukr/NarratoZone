@@ -13,6 +13,7 @@ import LoginToView from './pages/LoginToView/LoginToView';
 import Sample from './pages/Sample/Sample';
 import MyForm from './pages/MyForm/MyForm';
 import BlogIdeaGenerator from './pages/BlogIdeaGenerator/BlogIdeaGenerator';
+import ContactPage from './pages/ContactUs/ContactPage';
 // import TeamManagement from './pages/TeamManagement/TeamManagement'
 
 
@@ -39,6 +40,8 @@ function App() {
         <Route path='/list' element={<BlogList url={url}/>}/>
         <Route path='/sample' element={<MyForm />} />
         <Route path='/idea' element={<BlogIdeaGenerator />} />
+        <Route path='/contact' element={<ContactPage />} />
+        
       </Routes>
       <Footer/>
     </div>

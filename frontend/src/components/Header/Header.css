@@ -16,9 +16,13 @@
 .head-image h1 span{
     text-align: left;
     font-style: italic;
+    color: white;
+    text-shadow: 1px 1px solid black;
 }
 .head-text{
     font-size: 48px;
+    color: #f9f9f9;
+    text-shadow: 1px 1px black;
 }
 
 .quote-author{

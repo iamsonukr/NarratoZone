@@ -32,7 +32,7 @@ const Navbar = ({ setShowLogin }) => {
         <Link to='/' onClick={() => setMenu('home')} className={menu === 'home' ? "active" : ""} >Home</Link>
         <Link to='/create' onClick={() => setMenu('create')} className={menu === 'create' ? "active" : ""}>Create</Link>
         <Link to='/idea' onClick={() => setMenu('idea')} className={menu === 'idea' ? "active" : ""}>Generate Idea</Link>
-        <a href='#footer' onClick={() => setMenu('contact-us')} className={menu === 'contact-us' ? "active" : ""}>Contact Us</a>
+        <Link to='/contact' onClick={() => setMenu('contact-us')} className={menu === 'contact-us' ? "active" : ""}>Contact Us</Link>
       </ul>
 
       {/* right navbar */}

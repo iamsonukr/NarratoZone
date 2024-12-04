@@ -39,8 +39,9 @@
     gap: 20px;
 }
 
+
 .blog-card {
-    background-color: #f5f5f5f5; /* Blog card background */
+    background-color: #fffffff5; /* Blog card background */
     border-radius: 8px;
     padding: 35px;
     text-align: left;
