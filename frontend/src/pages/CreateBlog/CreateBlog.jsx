@@ -10,7 +10,7 @@ const CreateBlog = ({ url,setShowLogin }) => {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate()
-    const {userEmail ,name} =useContext(StoreContext)
+    const {userEmail ,name,setToken} =useContext(StoreContext)
 
     const [data, setData] = useState({
         title: "",
@@ -58,6 +58,7 @@ const CreateBlog = ({ url,setShowLogin }) => {
         if(!name){
             toast.error("Please login again !")
             setShowLogin(true)
+            setToken("")
         }
     }, [id,name]);
 

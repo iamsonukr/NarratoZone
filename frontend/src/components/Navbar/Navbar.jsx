@@ -4,6 +4,7 @@ import { assets } from '../../assets/assets';
 import { Link } from 'react-router-dom';
 import { StoreContext } from '../../context/StoreContext';
 import toast from 'react-hot-toast';
+import './Navbar.css'
 
 const Navbar = ({ setShowLogin }) => {
   const [menu, setMenu] = useState("home");
@@ -89,7 +90,7 @@ const Navbar = ({ setShowLogin }) => {
             <img src={assets.profile_icon} alt="" /> 
             <span>Hi {name}!</span>
             <div onClick={logout}>
-              <img src={assets.logout_icon} alt="" />
+              <img width={30} src={assets.logout_icon} alt="" />
               <p>Logout</p>
             </div>
           </div>
