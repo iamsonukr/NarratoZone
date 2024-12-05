@@ -45,27 +45,28 @@ const LoginPopup = ({setShowLogin ,url}) => {
     //sending the data to to database
     try {
       const response=await axios.post(newUrl,data)
-      if(response.data.success){
-        setToken(response.data.token)
-        setName(response.data.user.name)
-        setUserEmail(response.data.user.email)
-   
-  
-        localStorage.setItem("token",response.data.token)
-        setShowLogin(false)
-      }
+      console.log(response.data)
+      if (response.data.success === true) {
+        setToken(response.data.token);
+        setName(response.data.narratoUser.name);
+        setUserEmail(response.data.narratoUser.email);
+    
+        localStorage.setItem("token", response.data.token);
+        console.log("Sign up was successful");
+        console.log("Closing the login popup");
+        setShowLogin(false); // Check if this is reached
+    }
       else{
         console.log(response)
-        
+        setShowLogin(true)
         alert(response.data.message)
        
       }
-      setShowLogin(false)
+      
     } catch (error) {
       console.log(error)
     }finally{
       console.log(userEmail)
-      setShowLogin(false)
     }
 
     // geting the response and saving token in localStorage

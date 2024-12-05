@@ -6,6 +6,7 @@
     align-items: center;
     background-color: #f8f9fa;
     padding: 2rem;
+    transition-duration: 2s;
 }
 
 .login-prompt-container {

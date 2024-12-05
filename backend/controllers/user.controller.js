@@ -16,18 +16,18 @@ const loginUser= async(req,res)=>{
     const {email,password}=req.body
     try{
         //checking if email exist
-        const user=await userModel.findOne({email})
-        if(!user){
+        const narratoUser=await userModel.findOne({email})
+        if(!narratoUser){
             return res.json({success:false,message:"user does not exist..."})
         }
         //comparing password if user exist using bcrypt compare operator
-        const isMatch=await bcrypt.compare(password,user.password)
+        const isMatch=await bcrypt.compare(password,narratoUser.password)
 
         if(!isMatch){
             return res.json({success:false,message:"Invalid Credentials"})
         }
-        const token=createToken(user._id);
-        res.json({success:true,token,user})
+        const token=createToken(narratoUser._id);
+        res.json({success:true,token,narratoUser})
 
     }catch(error){
         console.log(error)
@@ -71,7 +71,13 @@ const registerUser=async(req,res)=>{
         //creating token
         const token=createToken(user._id)
         //sending response and token
-        res.json({success:true,token})
+        const narratoUser = {
+            _id: user._id,
+            name: user.name,
+            email: user.email
+        };
+        
+        res.json({success:true,token,narratoUser})
     }catch(error){
         console.log(error)
         res.json({success:false,message:"Error"})
