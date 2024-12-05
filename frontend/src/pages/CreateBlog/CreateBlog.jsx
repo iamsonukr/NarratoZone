@@ -81,7 +81,7 @@ const CreateBlog = ({ url,setShowLogin }) => {
         const formData = new FormData();
         formData.append('title', data.title);
         formData.append('description', data.description);
-        formData.append('author', data.author);
+        formData.append('author', name);
         formData.append('tags', data.tags.split(',').map(tag => tag.trim())); // Trim whitespace from tags
         formData.append('date', data.date);
         formData.append('id', id);
@@ -170,12 +170,11 @@ const CreateBlog = ({ url,setShowLogin }) => {
                     <div className="add-author flex-col">
                         <p>Author</p>
                         <input
-                            onChange={onChangeHandler}
+                          
                             value={name}
                             type="text"
                             name="author"
-                            placeholder="Author name"
-                            defaultValue={name}
+                     
                             required
                             disabled
                         />
