@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
+import { StoreContext } from '../../context/StoreContext';
 import './CreateBlog.css';
 import { assets } from '../../assets/assets';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
-const CreateBlog = ({ url }) => {
+const CreateBlog = ({ url,setShowLogin }) => {
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const navigate = useNavigate()
+    const {userEmail ,name} =useContext(StoreContext)
 
     const [data, setData] = useState({
         title: "",
@@ -32,7 +34,8 @@ const CreateBlog = ({ url }) => {
                     description: blog.description,
                     author: blog.author,
                     tags: blog.tags.join(', '),
-                    date: new Date(blog.date).toISOString().split('T')[0],
+                    date: new Date(blog.date).toISOString().split('T')[0]
+                    
                 });
                 // Handle existing image
                 if (blog.image) {
@@ -52,7 +55,11 @@ const CreateBlog = ({ url }) => {
         if (id) {
             fetchBlogData();
         }
-    }, [id]);
+        if(!name){
+            toast.error("Please login again !")
+            setShowLogin(true)
+        }
+    }, [id,name]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -77,6 +84,8 @@ const CreateBlog = ({ url }) => {
         formData.append('tags', data.tags.split(',').map(tag => tag.trim())); // Trim whitespace from tags
         formData.append('date', data.date);
         formData.append('id', id);
+        formData.append('userEmail', userEmail);
+
 
         // Only append image if a new one is selected or we're creating a new blog
         if (image) {
@@ -161,11 +170,13 @@ const CreateBlog = ({ url }) => {
                         <p>Author</p>
                         <input
                             onChange={onChangeHandler}
-                            value={data.author}
+                            value={name}
                             type="text"
                             name="author"
                             placeholder="Author name"
+                            defaultValue={name}
                             required
+                            disabled
                         />
                     </div>
 

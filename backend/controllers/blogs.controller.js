@@ -14,6 +14,11 @@ const listBlog = async (req, res) => {
 // Create a new blog
 const createBlog = async (req, res) => {
     let image_filename= `${req.file.filename}`
+    console.log(req.body)
+
+    if(!req.body.userEmail){
+        return res.json({ success: false, message: "Please provide a valid email" })
+    }
     const newBlog = new blogModel({
         title: req.body.title,
         description: req.body.description,
@@ -21,6 +26,7 @@ const createBlog = async (req, res) => {
         image: image_filename,
         author: req.body.author,
         tags: req.body.tags,
+        authorEmail:req.body.userEmail
     });
     try {
         await newBlog.save();

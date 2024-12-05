@@ -24,6 +24,10 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true, // Optionally, you could add an author field
     },
+    authorEmail:{
+        type: String,
+        required: true,
+    },
     tags: {
         type: [String], // Array of tags for categorizing the blog
         required: false,

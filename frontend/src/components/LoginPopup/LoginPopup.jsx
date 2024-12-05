@@ -9,7 +9,7 @@ const LoginPopup = ({setShowLogin ,url}) => {
   // this form is using two state One to show / hide login form -> Second to switch between login and sign in form
   const [currState,setCurrState]=useState("Login")
 
-  const {setName,name,setToken,username,setUsername}=useContext(StoreContext)
+  const {setName,name,setToken,userEmail,setUserEmail}=useContext(StoreContext)
 
   // storing state of input fields
   const [data,setData]=useState(
@@ -48,7 +48,8 @@ const LoginPopup = ({setShowLogin ,url}) => {
       if(response.data.success){
         setToken(response.data.token)
         setName(response.data.user.name)
-        setUsername(response.data.user.email)
+        setUserEmail(response.data.user.email)
+   
   
         localStorage.setItem("token",response.data.token)
         setShowLogin(false)
@@ -57,10 +58,14 @@ const LoginPopup = ({setShowLogin ,url}) => {
         console.log(response)
         
         alert(response.data.message)
+       
       }
-      
+      setShowLogin(false)
     } catch (error) {
       console.log(error)
+    }finally{
+      console.log(userEmail)
+      setShowLogin(false)
     }
 
     // geting the response and saving token in localStorage

@@ -11,8 +11,9 @@ const BlogList = ({ url, setShowLogin }) => {
     const [blogs, setBlogs] = useState([]);
     const [filteredBlogs, setFilteredBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [loading,setLoading]=useState(false)
-    const { token } = useContext(StoreContext)
+    const [loading, setLoading] = useState(false)
+    const { token, userEmail } = useContext(StoreContext)
+
     const blogsPerPage = 10;
 
     const [filters, setFilters] = useState({ title: '', author: '', tags: '' });
@@ -33,6 +34,7 @@ const BlogList = ({ url, setShowLogin }) => {
 
     useEffect(() => {
         fetchBlogs();
+
     }, []);
 
     const handleFilterChange = (e) => {
@@ -104,8 +106,8 @@ const BlogList = ({ url, setShowLogin }) => {
 
     return (
         <>
-        <Header/>
-            {loading?<h1 className='loadingText' >Please wait Blogs are loading</h1>:""}
+            <Header />
+            {loading ? <h1 className='loadingText' >Please wait Blogs are loading</h1> : ""}
             <div className="blog-list-container">
                 {/* <h1>Blog List</h1> */}
 
@@ -135,7 +137,7 @@ const BlogList = ({ url, setShowLogin }) => {
                         className="filter-input"
                     />
                 </div>
-                
+
 
                 <ul className="blog-list">
                     {currentBlogs.map(blog => (
@@ -143,14 +145,26 @@ const BlogList = ({ url, setShowLogin }) => {
                             <img src={`${url}/images/${blog.image}`} alt={blog.title} className="blog-image" />
                             <div className="blog-content">
                                 <h2>{blog.title}</h2>
-                                <p><strong>Author:</strong><span className='blogText'>{blog.author}</span> </p>
-                                <p><strong>Description:</strong><span className='blogText'> {blog.description} </span></p>
-                                <p><strong>Tags:</strong> <span className='blogText'> {blog.tags.join(', ')} </span> </p>
-                                <p><strong>Date:</strong> <span className='blogText'> {new Date(blog.date).toLocaleDateString()}</span></p>
+                                <p><strong>Author : </strong><span className='blogText'>{blog.author}</span> </p>
+                                <p><strong>Description : </strong><span className='blogText'> {blog.description} </span></p>
+                                <p><strong>Tags : </strong> <span className='blogText'> {blog.tags.join(', ')} </span> </p>
+                                <p><strong>Date : </strong> <span className='blogText'> {new Date(blog.date).toLocaleDateString()}</span></p>
                                 <div className="blog-actions">
                                     <button onClick={() => increaseBlogLike(blog._id)} className='like-btn'><span className='heart'>♥️</span> {blog.likes}</button>
-                                    <button onClick={() => deleteBlog(blog._id)} className='delete-btn'>Delete</button>
-                                    <button onClick={() => gotoUpdate(blog._id)} className='update-btn'>Update</button>
+
+                                    {(blog.authorEmail && blog.authorEmail === userEmail)
+                                        ? (
+                                            <>
+                                                <button onClick={() => deleteBlog(blog._id)} className='delete-btn'>Delete</button>
+                                                <button onClick={() => gotoUpdate(blog._id)} className='update-btn'>Update</button>
+                                            </>
+                                        )
+                                        : <>{console.log(blog, userEmail)}</>
+                                    }
+
+                                    {/* <button onClick={() => deleteBlog(blog._id)} className='delete-btn'>Delete</button>
+                                    <button onClick={() => gotoUpdate(blog._id)} className='update-btn'>Update</button> */}
+
                                 </div>
                             </div>
                         </li>

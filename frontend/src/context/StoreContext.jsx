@@ -10,7 +10,7 @@ export const StoreContext = createContext(null)
 const StoreContextProvider = (prop) => {
     const [token, setToken] = useState('')
     const [name,setName]=useState('')
-    const [username,setUsername]=useState('')
+    const [userEmail,setUserEmail]=useState('')
     // this function is to stay logged in even after reloading the page
 
     useEffect(() => {
@@ -27,8 +27,8 @@ const StoreContextProvider = (prop) => {
         setToken,
         setName,
         name,
-        username,
-        setUsername,
+        userEmail,
+        setUserEmail,
 
     }
     return (

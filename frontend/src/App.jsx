@@ -20,8 +20,8 @@ import ContactPage from './pages/ContactUs/ContactPage';
 function App() {
   const[showLogin,setShowLogin]=useState(false)
 
-  const url='https://resoultpartnersbackend.onrender.com'
-  // const url='http://localhost:5001'
+  // const url='https://resoultpartnersbackend.onrender.com'
+  const url='http://localhost:5001'
   const {token}=useContext(StoreContext)
 
 
@@ -35,7 +35,7 @@ function App() {
       <Routes>
         <Route path='/' element={<BlogList url={url} setShowLogin={setShowLogin} />}/>
         
-        {token?<Route path="/create/:id?" element={<CreateBlog url={url}/>}/>
+        {token?<Route path="/create/:id?" element={<CreateBlog url={url} setShowLogin={setShowLogin}/>}/>
         :<Route path="/create/:id?" element={<LoginToView setShowLogin={setShowLogin}/>}/>}
         <Route path='/list' element={<BlogList url={url}/>}/>
         <Route path='/sample' element={<MyForm />} />
