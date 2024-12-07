@@ -5,8 +5,6 @@ import { blogRouter } from './routes/blogs.route.js';
 import {userRouter} from './routes/user.route.js';
 import cors from 'cors'
 import { ideaRouter } from './routes/idea.routes.js';
-
-
 dotenv.config();
 const app=express()
 connectDB()

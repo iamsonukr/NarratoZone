@@ -3,20 +3,36 @@ import jwt from 'jsonwebtoken'
 import bcrypt from "bcrypt"
 import validator from "validator"
 import nodemailer from 'nodemailer'
+import dotenv from 'dotenv';
+dotenv.config();
+
+
 
 // ------------------------------------------ Email Verification starts ---------------------------------
 
 const transporter = nodemailer.createTransport({
+   
     service: 'Gmail',
     auth: {
-        user: process.env.EMAIL_USER, // Your email
-        pass: process.env.EMAIL_PASSWORD // Your email password
-    }
+        user:process.env.EMAIL_USER, // Your email
+        pass:process.env.EMAIL_PASSWORD // Your email password
+
+    },
 });
+
+transporter.verify((error, success) => {
+    if (error) {
+      console.log('Error:', error);
+    } else {
+      console.log('Server is ready to take messages');
+    }
+  });
+
 
 // Email verification logic
 const registerUser2 = async (req, res) => {
     const { name, password, email } = req.body;
+    console.log(process.env.EMAIL_USER,process.env.EMAIL_PASSWORD)
     try {
         // Check if user already exists
         const exist = await userModel.findOne({ email });
@@ -38,6 +54,8 @@ const registerUser2 = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+
+
         // Create a new user
         const newUser = new userModel({
             name: name,
@@ -48,6 +66,7 @@ const registerUser2 = async (req, res) => {
 
         // Save the new user
         const user = await newUser.save();
+
 
         // Generate email verification token
         const verificationToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -96,7 +115,7 @@ const registerUser2 = async (req, res) => {
 
         const token=createToken(user._id)
 
-        res.json({ success: true, message: "Registration successful! Please check your email to verify your account." ,narratoUser,token});
+        res.json({ success: true, message: "Registration successful! Please check your email to verify your account." ,narratoUser, token});
     } catch (error) {
         console.error(error);
         res.json({ success: false, message: "Error" });
@@ -121,7 +140,7 @@ const verifyEmail = async (req, res) => {
         user.isVerified = true;
         await user.save();
 
-        res.json({ success: true, message: "Email verified successfully!" });
+        res.json({ success: true, message: "Email verified successfully!" ,visit:"https://narratozone.vercel.app/"});
     } catch (error) {
         console.error(error);
         res.json({ success: false, message: "Verification link expired or invalid." });
