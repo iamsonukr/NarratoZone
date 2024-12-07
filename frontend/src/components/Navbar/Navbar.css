@@ -49,10 +49,10 @@
 /* Active link styling */
 .navbar-menu .active {
 
-  background-color: rgb(151, 151, 151);
-  border-radius: 10px 0px 10px 0px;
-  border: 1px solid gray;
-  color: white;
+background-color: #f8f9fa;
+color: black;
+border-bottom: 2px solid black;
+transition-duration:border-bottom 2s;
 }
 
 .navbar-menu .active::after {
@@ -103,7 +103,7 @@
 }
 
 .navbar-right button:hover {
-  background-color: #050505;
+  /* background-color: #050505; */
   
   transform: translateY(-2px);
 }

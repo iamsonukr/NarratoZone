@@ -46,6 +46,8 @@
     padding: 35px;
     text-align: left;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: levelUp 1s ease-in-out !important;
+    transition-duration: 1s;
 }
 
 .blog-image {
@@ -71,13 +73,13 @@
     color: #333;                
     text-align: center;          
     margin-top: 50px;           
-    animation: fadeIn 1.5s ease-in-out infinite; 
+    /* animation: fadeIn 1.5s ease-in-out infinite;  */
   }
 
-  @keyframes fadeIn {
+  /* @keyframes fadeIn {
     0%, 100% { opacity: 0.3; }   
     50% { opacity: 1; }         
-  }
+  } */
 
 .heart{
     color: #e63946;
@@ -247,3 +249,20 @@ button{
         flex-direction: column;
     }
 }
+
+
+
+  @keyframes levelUp {
+    0% {
+       
+        transform: translateY(110px);
+    }
+    /* 50% {
+   
+        transform: translateY(-255px);
+    } */
+    100%{
+  
+        transform: translateY(0);
+    }
+  }
