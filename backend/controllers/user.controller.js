@@ -53,7 +53,7 @@ const registerUser2 = async (req, res) => {
         const verificationToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
         // Send verification email
-        const verificationUrl = `http://localhost:5001/api/user/verify?token=${verificationToken}`;
+        const verificationUrl = `https://resoultpartnersbackend.onrender.com/api/user/verify?token=${verificationToken}`;
         const mailOptions = {
             from: process.env.EMAIL_USER,
             to: email,
