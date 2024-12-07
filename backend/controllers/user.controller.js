@@ -2,12 +2,141 @@ import userModel from "../models/user.model.js"
 import jwt from 'jsonwebtoken'
 import bcrypt from "bcrypt"
 import validator from "validator"
+import nodemailer from 'nodemailer'
 
+// ------------------------------------------ Email Verification starts ---------------------------------
+
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: process.env.EMAIL_USER, // Your email
+        pass: process.env.EMAIL_PASSWORD // Your email password
+    }
+});
+
+// Email verification logic
+const registerUser2 = async (req, res) => {
+    const { name, password, email } = req.body;
+    try {
+        // Check if user already exists
+        const exist = await userModel.findOne({ email });
+        if (exist) {
+            return res.json({ success: false, message: "User already exists." });
+        }
+
+        // Validate email
+        if (!validator.isEmail(email)) {
+            return res.json({ success: false, message: "Please enter a valid email." });
+        }
+
+        // Check for strong password
+        if (password.length < 8) {
+            return res.json({ success: false, message: "Please enter a strong password" });
+        }
+
+        // Hashing user password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Create a new user
+        const newUser = new userModel({
+            name: name,
+            email: email,
+            password: hashedPassword,
+            isVerified: false // Add a flag to indicate email verification status
+        });
+
+        // Save the new user
+        const user = await newUser.save();
+
+        // Generate email verification token
+        const verificationToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        // Send verification email
+        const verificationUrl = `http://localhost:5001/api/user/verify?token=${verificationToken}`;
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Verify your email',
+            html: `
+            <html>
+              <head>
+                <style>
+                 <link rel="stylesheet" href="mail.css">
+                </style>
+              </head>
+              <body>
+                <div class="email-container">
+                  <div class="header">
+                    <img src="https://narratozone.vercel.app/assets/narratoLogo-BdIG8Zts.png" alt="Logo" width='300px' />
+                  </div>
+                  <div class="content">
+                    <h2>Hi ${name},</h2>
+                    <p>Welcome to Narratozone! Click the button below to verify your email address and complete your registration.</p>
+                    <a href="${verificationUrl}" class="button">Verify Email</a>
+                    <p>If you didn't sign up, you can safely ignore this email.</p>
+                  </div>
+                  <div class="footer">
+                    &copy; ${new Date().getFullYear()} Your Company. All rights reserved.
+                  </div>
+                </div>
+              </body>
+            </html>
+            `
+          };
+          
+
+        await transporter.sendMail(mailOptions);
+        const narratoUser = {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isVerified:user.isVerified,
+        }
+
+        const token=createToken(user._id)
+
+        res.json({ success: true, message: "Registration successful! Please check your email to verify your account." ,narratoUser,token});
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: "Error" });
+    }
+};
+
+// Email verification endpoint
+const verifyEmail = async (req, res) => {
+    const { token } = req.query;
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await userModel.findById(decoded.userId);
+
+        if (!user) {
+            return res.json({ success: false, message: "Invalid token or user not found." });
+        }
+
+        if (user.isVerified) {
+            return res.json({ success: false, message: "User already verified." });
+        }
+
+        user.isVerified = true;
+        await user.save();
+
+        res.json({ success: true, message: "Email verified successfully!" });
+    } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: "Verification link expired or invalid." });
+    }
+};
+
+
+
+// ------------------------------------------ Email Verification End ------------------------------------------------------------------------
 
 /// Function to create token
 const createToken=(id)=>{
     return jwt.sign({id},process.env.JWT_SECRET)
 }
+
 
 
 /// login user
@@ -16,18 +145,26 @@ const loginUser= async(req,res)=>{
     const {email,password}=req.body
     try{
         //checking if email exist
-        const narratoUser=await userModel.findOne({email})
-        if(!narratoUser){
+        const user=await userModel.findOne({email})
+        if(!user){
             return res.json({success:false,message:"user does not exist..."})
         }
         //comparing password if user exist using bcrypt compare operator
-        const isMatch=await bcrypt.compare(password,narratoUser.password)
+        const isMatch=await bcrypt.compare(password,user.password)
 
         if(!isMatch){
             return res.json({success:false,message:"Invalid Credentials"})
         }
-        const token=createToken(narratoUser._id);
-        res.json({success:true,token,narratoUser})
+        const token=createToken(user._id);
+
+        const narratoUser = {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isVerified:user.isVerified,
+        }
+
+        res.json({success:true,message:"Login Successful",token,narratoUser})
 
     }catch(error){
         console.log(error)
@@ -94,4 +231,4 @@ const getUsers=async(req,res)=>{
     }
 }
 
-export {loginUser,registerUser,getUsers}
+export {loginUser,registerUser,getUsers,registerUser2,verifyEmail}

@@ -10,7 +10,6 @@ import LoginPopup from './components/LoginPopup/LoginPopup'
 import Footer from './components/Footer/Footer'
 import { StoreContext } from './context/StoreContext';
 import LoginToView from './pages/LoginToView/LoginToView';
-import Sample from './pages/Sample/Sample';
 import MyForm from './pages/MyForm/MyForm';
 import BlogIdeaGenerator from './pages/BlogIdeaGenerator/BlogIdeaGenerator';
 import ContactPage from './pages/ContactUs/ContactPage';
@@ -20,8 +19,8 @@ import ContactPage from './pages/ContactUs/ContactPage';
 function App() {
   const[showLogin,setShowLogin]=useState(false)
 
-  const url='https://resoultpartnersbackend.onrender.com'
-  // const url='http://localhost:5001'
+  // const url='https://resoultpartnersbackend.onrender.com'
+  const url='http://localhost:5001'
   const {token}=useContext(StoreContext)
 
 

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+
+    .calculator {
+      background-color: #333;
+      padding: 10px;
+      border-radius: 5px;
+      border: 2px solid #000;
+    }
+
+    .display {
+      background-color: #a5a5a5;
+      color: #000;
+      font-family: 'Digital', monospace;
+      padding: 10px;
+      margin: 5px;
+      text-align: right;
+      border: 1px inset #666;
+      border-radius: 2px;
+    }
+
+    .expression {
+      font-size: 16px;
+      min-height: 20px;
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    .result {
+      font-size: 24px;
+      min-height: 30px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      padding: 5px;
+    }
+
+    button {
+      padding: 15px;
+      font-size: 18px;
+      border: 1px solid #666;
+      border-radius: 3px;
+      background-color: #f0f0f0;
+      cursor: pointer;
+    }
+
+    button:active {
+      background-color: #ccc;
+    }
+
+    .number {
+      background-color: #f8f8f8;
+    }
+
+    .operator {
+      background-color: #ffa500;
+      color: white;
+    }
+
+    .equals {
+      background-color: #ffa500;
+      color: white;
+    }
+
+    .clear {
+      background-color: #ff6347;
+      color: white;
+    }
+
+    .zero {
+      grid-column: span 2;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display">
+      <div class="expression" id="expression"></div>
+      <div class="result" id="result">0</div>
+    </div>
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">AC</button>
+      <button class="operator" onclick="handleOperator('+/-')">+/-</button>
+      <button class="operator" onclick="handleOperator('%')">%</button>
+      <button class="operator" onclick="handleOperator('/')">÷</button>
+      
+      <button class="number" onclick="appendNumber('7')">7</button>
+      <button class="number" onclick="appendNumber('8')">8</button>
+      <button class="number" onclick="appendNumber('9')">9</button>
+      <button class="operator" onclick="handleOperator('*')">×</button>
+      
+      <button class="number" onclick="appendNumber('4')">4</button>
+      <button class="number" onclick="appendNumber('5')">5</button>
+      <button class="number" onclick="appendNumber('6')">6</button>
+      <button class="operator" onclick="handleOperator('-')">-</button>
+      
+      <button class="number" onclick="appendNumber('1')">1</button>
+      <button class="number" onclick="appendNumber('2')">2</button>
+      <button class="number" onclick="appendNumber('3')">3</button>
+      <button class="operator" onclick="handleOperator('+')">+</button>
+      
+      <button class="number zero" onclick="appendNumber('0')">0</button>
+      <button class="number" onclick="appendNumber('.')">.</button>
+      <button class="equals" onclick="calculate()">=</button>
+    </div>
+  </div>
+
+  <script>
+    let currentNumber = '0';
+    let firstOperand = null;
+    let operator = null;
+    let waitingForSecondOperand = false;
+    let expressionString = '';
+
+    const resultDisplay = document.getElementById('result');
+    const expressionDisplay = document.getElementById('expression');
+
+    function updateDisplay() {
+      resultDisplay.textContent = currentNumber;
+      expressionDisplay.textContent = expressionString;
+    }
+
+    function appendNumber(number) {
+      if (waitingForSecondOperand) {
+        currentNumber = number;
+        waitingForSecondOperand = false;
+      } else {
+        currentNumber = currentNumber === '0' ? number : currentNumber + number;
+      }
+      updateDisplay();
+    }
+
+    function handleOperator(nextOperator) {
+      const inputValue = parseFloat(currentNumber);
+
+      if (nextOperator === '+/-') {
+        currentNumber = String(-parseFloat(currentNumber));
+        updateDisplay();
+        return;
+      }
+
+      if (nextOperator === '%') {
+        currentNumber = String(parseFloat(currentNumber) / 100);
+        updateDisplay();
+        return;
+      }
+
+      if (firstOperand === null) {
+        firstOperand = inputValue;
+      } else if (operator) {
+        const result = calculate();
+        currentNumber = String(result);
+        firstOperand = result;
+      }
+
+      waitingForSecondOperand = true;
+      operator = nextOperator;
+      
+      // Update expression string
+      let operatorSymbol = nextOperator;
+      if (nextOperator === '*') operatorSymbol = '×';
+      if (nextOperator === '/') operatorSymbol = '÷';
+      
+      expressionString = firstOperand + ' ' + operatorSymbol + ' ';
+      updateDisplay();
+    }
+
+    function calculate() {
+      if (operator === null) return;
+
+      const secondOperand = parseFloat(currentNumber);
+      let result = 0;
+
+      switch (operator) {
+        case '+':
+          result = firstOperand + secondOperand;
+          break;
+        case '-':
+          result = firstOperand - secondOperand;
+          break;
+        case '*':
+          result = firstOperand * secondOperand;
+          break;
+        case '/':
+          result = firstOperand / secondOperand;
+          break;
+      }
+
+      // Update expression string with complete calculation
+      expressionString += currentNumber + ' = ';
+      currentNumber = String(result);
+      firstOperand = result;
+      operator = null;
+      waitingForSecondOperand = true;
+      updateDisplay();
+      return result;
+    }
+
+    function clearDisplay() {
+      currentNumber = '0';
+      firstOperand = null;
+      operator = null;
+      waitingForSecondOperand = false;
+      expressionString = '';
+      updateDisplay();
+    }
+  </script>
+</body>
+</html>

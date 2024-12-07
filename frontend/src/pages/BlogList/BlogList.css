@@ -91,19 +91,52 @@
 .like-btn{
     border-radius: 10px 0px 10px 0px; 
     font-size: 14px;
-    border: 1px solid rgb(208, 138, 138);
+    border: 1px solid rgb(185, 0, 0);
+    padding: 3px 5px;
+    background-color: white;
+    display: flex;
+    align-content: center;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+   
 }
+.like-btn:hover{
+    border: none;
+}
+.like-btn svg{
+    transition-duration: 0.5s ;
+}
+.like-btn svg:hover{
+    transform: scale(1.6);
+    border: none;
+}
+.heart{
+    border: none;
+    /* display: none; */
+
+    font-size: 5vh;
+    transition-duration: 1s;
+}
+
+.heart:hover{
+    transform: scale(1.2);
+}
+
 .delete-btn , .update-btn{
     color: rgb(0, 0, 0);
     padding: 10px 18px;
     background-color: rgba(255, 0, 0, 0.445);
     border-radius: 10px 0px 10px 0px;  
+    
     border: 0px solid black; 
 }
 
 .delete-btn:hover{
     background-color: #f74600;
-    border: 1px solid black; 
+    /* border: 1px solid black;  */
+    color: white;
     cursor: pointer;
 }
 .update-btn{
@@ -199,9 +232,11 @@
 
 @media (max-width:728px) {
     .filters-container{
-        flex-direction: column;
+        /* flex-direction: column; */
         gap: 10px;
-        align-items: end;
+        flex-wrap: wrap;
+        /* align-items: end; */
+        padding-bottom: 20px;
     }
     .blog-list{
         display: flex;

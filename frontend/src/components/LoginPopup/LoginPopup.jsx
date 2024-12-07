@@ -3,6 +3,7 @@ import { assets } from '../../assets/assets'
 import './LoginPopup.css'
 import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const LoginPopup = ({setShowLogin ,url}) => {
 
@@ -50,11 +51,14 @@ const LoginPopup = ({setShowLogin ,url}) => {
         setToken(response.data.token);
         setName(response.data.narratoUser.name);
         setUserEmail(response.data.narratoUser.email);
-    
+        toast.success(response.data.message)
         localStorage.setItem("token", response.data.token);
-        console.log("Sign up was successful");
-        console.log("Closing the login popup");
+
         setShowLogin(false); // Check if this is reached
+        setTimeout(()=>{
+          response.data.narratoUser.isVerified?"" :toast.error("User is not verified. Please Check your inbox to verify your email")
+        },3000)
+
     }
       else{
         console.log(response)
