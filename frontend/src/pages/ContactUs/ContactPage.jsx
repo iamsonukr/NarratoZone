@@ -25,9 +25,12 @@ function ContactPage() {
 
     return (
         <div className="contact-page">
+
             <header className="contact-header">
+            <div className="contact-text">
                 <h1>NarratoZone</h1>
                 <p>Let's Start a Conversation</p>
+            </div>
             </header>
 
             <div className="contact-container">

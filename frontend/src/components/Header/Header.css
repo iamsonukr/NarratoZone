@@ -1,6 +1,7 @@
 .head-image{
 
-    background-image: url('../../assets/sunflower-field.jpg');
+    /* background-image: url('../../assets/sunflower-field.jpg'); */
+
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
@@ -33,8 +34,8 @@
 @media (max-width:728px) {
     .head-image{
         padding: 0px 20px;
-        height: 40vh !important;
-        width: 90% !important;
+        height: 60vh !important;
+        width: 100% !important;
     }
     .head-text{
         font-size: 28px;

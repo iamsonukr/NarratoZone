@@ -37,6 +37,8 @@ const Navbar = ({ setShowLogin }) => {
 
   return (
     <div className='navbar'>
+      <div className="nav-items">
+
       <Link to='/'> 
         <img src={assets.logo} alt="" className="logo" />
       </Link>
@@ -54,7 +56,7 @@ const Navbar = ({ setShowLogin }) => {
           to='/' 
           onClick={() => { setMenu('home'); setIsMenuOpen(false); }} 
           className={menu === 'home' ? "active" : ""}
-        >
+          >
           Home
         </Link>
         <Link 
@@ -68,14 +70,14 @@ const Navbar = ({ setShowLogin }) => {
           to='/idea' 
           onClick={() => { setMenu('idea'); setIsMenuOpen(false); }} 
           className={menu === 'idea' ? "active" : ""}
-        >
+          >
           Generate Idea
         </Link>
         <Link 
           to='/contact' 
           onClick={() => { setMenu('contact-us'); setIsMenuOpen(false); }} 
           className={menu === 'contact-us' ? "active" : ""}
-        >
+          >
           Contact Us
         </Link>
       </ul>
@@ -96,6 +98,7 @@ const Navbar = ({ setShowLogin }) => {
           </div>
         )}
       </div>
+        </div>
     </div>
   );
 };

@@ -1,19 +1,21 @@
 /* Navbar container */
 .navbar {
+  width: 97%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 5%;
-  background-color: #f8f9fa;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  padding: 1rem 2rem;
+  background: #ffffff40;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, .18);
+  position: fixed;
+  z-index: 2;
 }
 
 /* Logo styling */
 .logo {
-  height: 60px;
+  height: 50px;
   width: auto;
   cursor: pointer;
   transition: transform 0.3s ease;
@@ -46,10 +48,18 @@
   color: #333;
 }
 
+.nav-items{
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
 /* Active link styling */
 .navbar-menu .active {
 
-background-color: #f8f9fa;
+background-color: transparent;
 color: black;
 border-bottom: 2px solid black;
 transition-duration:border-bottom 2s;
@@ -91,8 +101,8 @@ transition-duration:border-bottom 2s;
 
 /* Sign in button */
 .navbar-right button {
-  background-color: #666666;;
-  color: #f5f5f5f5;
+  background-color: transparent;;
+  color: #000000f5;
   border: none;
   padding: 0.5rem 1.5rem;
   font-weight: 500;
@@ -103,7 +113,8 @@ transition-duration:border-bottom 2s;
 }
 
 .navbar-right button:hover {
-  /* background-color: #050505; */
+  background-color: #050505;
+  color: white;
   
   transform: translateY(-2px);
 }

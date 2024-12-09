@@ -18,8 +18,8 @@ const Header = () => {
       style={{
         backgroundImage: `url(${images[currentImageIndex]})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        height: '80vh', // Adjust height as per your design
+        backgroundPosition: 'center center',
+        height: '90vh', // Adjust height as per your design
       }}
     >
       <h1>
