@@ -1,5 +1,6 @@
 /* Login prompt container */
 .login-prompt {
+
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -10,6 +11,7 @@
 }
 
 .login-prompt-container {
+    margin-top: 60px;
     background: white;
     padding: 3rem;
     border-radius: 16px;

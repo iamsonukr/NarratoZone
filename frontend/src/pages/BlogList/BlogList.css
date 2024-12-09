@@ -73,13 +73,23 @@
     color: #333;                
     text-align: center;          
     margin-top: 50px;           
-    /* animation: fadeIn 1.5s ease-in-out infinite;  */
-  }
+    animation: moveUp 1.5s ease-in-out infinite;
+}
 
-  /* @keyframes fadeIn {
-    0%, 100% { opacity: 0.3; }   
-    50% { opacity: 1; }         
-  } */
+@keyframes moveUp {
+    0% {
+        transform: translateY(0);
+        opacity: 0.3;
+    }
+    50% {
+        transform: translateY(-20px); /* Moves upward */
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 0.3;
+    }
+}
 
 .heart{
     color: #e63946;
