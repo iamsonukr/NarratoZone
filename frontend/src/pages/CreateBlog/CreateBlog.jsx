@@ -7,8 +7,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 const CreateBlog = ({ url,setShowLogin }) => {
+
+    // variables
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
+    const [submitting,setSubmitting]=useState(false)
     const navigate = useNavigate()
     const {userEmail ,name,setToken} =useContext(StoreContext)
 
@@ -23,6 +26,8 @@ const CreateBlog = ({ url,setShowLogin }) => {
 
     const { id } = useParams();
 
+
+    // Fetching the blog data to edit
     const fetchBlogData = async () => {
         try {
             const response = await axios.post(`${url}/api/blog/getsingle/${id}`);
@@ -51,6 +56,7 @@ const CreateBlog = ({ url,setShowLogin }) => {
         }
     };
 
+    // 
     useEffect(() => {
         if (id) {
             fetchBlogData();
@@ -63,6 +69,7 @@ const CreateBlog = ({ url,setShowLogin }) => {
     }, [id,name]);
 
     const handleImageChange = (e) => {
+       
         const file = e.target.files[0];
         if (file) {
             setImage(file);
@@ -75,50 +82,59 @@ const CreateBlog = ({ url,setShowLogin }) => {
         setData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    // SUbmitting the data
     const handleSubmit = async (event) => {
-        event.preventDefault();
-
+        event.preventDefault(); // Prevent default form submission behavior
+    
+        if (submitting) {
+            toast.error("Please wait, your data is being submitted.");
+            return;
+        }
+    
+        setSubmitting(true); // Set submitting state to true to prevent multiple submissions
+    
         const formData = new FormData();
         formData.append('title', data.title);
         formData.append('description', data.description);
         formData.append('author', name);
-        formData.append('tags', data.tags.split(',').map(tag => tag.trim())); // Trim whitespace from tags
+        formData.append('tags', JSON.stringify(data.tags.split(',').map(tag => tag.trim()))); // Convert tags array to JSON string
         formData.append('date', data.date);
         formData.append('id', id);
         formData.append('userEmail', userEmail);
-
-
-        // Only append image if a new one is selected or we're creating a new blog
+    
+        // Append image only if one is selected
         if (image) {
             formData.append('image', image);
         }
-
+    
         try {
             let response;
             if (id) {
+                // Update existing blog
                 response = await axios.post(`${url}/api/blog/update/${id}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                navigate('/')
-                toast.success("Blog Updated Successfully");
-
+                toast.success("Blog updated successfully");
             } else {
+                // Create new blog
                 response = await axios.post(`${url}/api/blog/create`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                navigate('/')
-                toast.success("Blog Created Successfully");
+                toast.success("Blog created successfully");
             }
-
-           
+            navigate('/'); // Redirect after successful operation
         } catch (error) {
+            console.error(error); // Log the error for debugging
             toast.error("An error occurred while processing your request.");
+        } finally {
+            setSubmitting(false); // Reset submitting state
         }
     };
+    
 
     return (
         <div className="add">
