@@ -14,7 +14,7 @@ const BlogList = ({ setShowLogin }) => {
     const [currentPage, setCurrentPage] = useState(1);
     
     const [userLiked, setUserLiked] = useState(false)
-    const { token, userEmail,blogs,blogLoading,url } = useContext(StoreContext)
+    const { token, userEmail,blogs,blogLoading,url,fetchBlogs } = useContext(StoreContext)
 
     const blogsPerPage = 10;
 
@@ -83,6 +83,8 @@ const BlogList = ({ setShowLogin }) => {
 
         } catch (error) {
             console.log(error);
+        }finally{
+            fetchBlogs()
         }
     };
 
@@ -94,6 +96,7 @@ const BlogList = ({ setShowLogin }) => {
             navigate(`/create/${id}`)
         }
     }
+
 
     return (
         <>

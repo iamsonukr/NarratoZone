@@ -18,8 +18,8 @@ const StoreContextProvider = (prop) => {
 
     // 1> Fetch the blogs
     const fetchBlogs = async () => {
-        setBlogLoading(true)
         try {
+            setBlogLoading(true)
             const response = await axios.get(`${url}/api/blog/blogs`);
             setBlogs(response.data.data);
             // setFilteredBlogs(response.data.data);
@@ -28,6 +28,8 @@ const StoreContextProvider = (prop) => {
         } catch (error) {
             toast.error("Error fetching blogs:", error);
             console.log(error)
+            setBlogLoading(false)
+        }finally{
             setBlogLoading(false)
         }
     };
@@ -56,13 +58,14 @@ const StoreContextProvider = (prop) => {
         loadEmail();
         loadToken();
         fetchBlogs()
-    }, [blogs]);
+    }, []);
 
     const contextValue = {
         // functions
         setToken,
         setName,
         setUserEmail,
+        fetchBlogs,
 
         // variables
         url,

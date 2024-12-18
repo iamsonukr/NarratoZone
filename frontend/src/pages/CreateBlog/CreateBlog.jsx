@@ -13,7 +13,7 @@ const   CreateBlog = ({setShowLogin }) => {
     const [imagePreview, setImagePreview] = useState(null);
     const [submitting,setSubmitting]=useState(false)
     const navigate = useNavigate()
-    const {userEmail ,name,setToken,url} =useContext(StoreContext)
+    const {userEmail ,name,setToken,url,fetchBlogs} =useContext(StoreContext)
 
     const [data, setData] = useState({
         title: "",
