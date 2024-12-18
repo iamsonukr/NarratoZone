@@ -53,6 +53,8 @@ const LoginPopup = ({setShowLogin ,url}) => {
         setUserEmail(response.data.narratoUser.email);
         toast.success(response.data.message)
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("name", response.data.narratoUser.name);
+        localStorage.setItem("userEmail", response.data.narratoUser.email);
 
         setShowLogin(false); // Check if this is reached
         setTimeout(()=>{

@@ -3,6 +3,7 @@ import axios from 'axios';
 import './BlogList.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { Search } from 'lucide-react';
 
 import { StoreContext } from '../../context/StoreContext';
 import Header from '../../components/Header/Header';
@@ -16,7 +17,7 @@ const BlogList = ({ url, setShowLogin }) => {
 
     const blogsPerPage = 10;
 
-    const [filters, setFilters] = useState({ title: '', author: '', tags: '' });
+    const [filters, setFilters] = useState({ search:"" });
     const navigate = useNavigate();
 
     const fetchBlogs = async () => {
@@ -38,19 +39,23 @@ const BlogList = ({ url, setShowLogin }) => {
     }, []);
 
     const handleFilterChange = (e) => {
-        const { name, value } = e.target;
-        setFilters(prevFilters => ({ ...prevFilters, [name]: value }));
+        setFilters({ search: e.target.value });
     };
 
     useEffect(() => {
-        const filtered = blogs.filter(blog => (
-            (filters.title === '' || blog.title.toLowerCase().includes(filters.title.toLowerCase())) &&
-            (filters.author === '' || blog.author.toLowerCase().includes(filters.author.toLowerCase())) &&
-            (filters.tags === '' || blog.tags.some(tag => tag.toLowerCase().includes(filters.tags.toLowerCase())))
-        ));
+        const filtered = blogs.filter(blog => {
+            const searchValue = filters.search.toLowerCase();
+            return (
+                filters.search === '' ||
+                blog.title.toLowerCase().includes(searchValue) ||
+                blog.author.toLowerCase().includes(searchValue) ||
+                blog.tags.some(tag => tag.toLowerCase().includes(searchValue))
+            );
+        });
         setFilteredBlogs(filtered);
         setCurrentPage(1);
     }, [filters, blogs]);
+
 
     const indexOfLastBlog = currentPage * blogsPerPage;
     const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
@@ -82,19 +87,43 @@ const BlogList = ({ url, setShowLogin }) => {
 
     };
 
+    // const increaseBlogLike = async (id) => {
+    //     if (!token) {
+    //         setShowLogin(true)
+    //     } else {
+    //         try {
+    //             await axios.post(`${url}/api/blog/like/${id}`,userEmail);
+    //             fetchBlogs();
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+
+    //     }
+    // };
+
+
     const increaseBlogLike = async (id) => {
         if (!token) {
-            setShowLogin(true)
-        } else {
-            try {
-                await axios.post(`${url}/api/blog/like/${id}`);
-                fetchBlogs();
-            } catch (error) {
-                console.log(error);
+            setShowLogin(true);
+            return;
+        }
+    
+        try {
+            const response = await axios.post(`${url}/api/blog/like/${id}`, {userEmail});
+           
+    
+            if (response.data.alreadyLiked) {
+                console.log('You have already liked this blog.');
+            } else {
+                console.log('Blog liked successfully.');
+                fetchBlogs(); // Refresh the blogs to show the updated like count
             }
-
+            toast(response.message)
+        } catch (error) {
+            console.log(error);
         }
     };
+    
 
     const gotoUpdate = (id) => {
         if (!token) {
@@ -111,32 +140,22 @@ const BlogList = ({ url, setShowLogin }) => {
             <div className="blog-list-container">
                 {/* <h1>Blog List</h1> */}
 
-                <div className="filters-container">
-                    <input
-                        type="text"
-                        name="title"
-                        value={filters.title}
-                        onChange={handleFilterChange}
-                        placeholder="Filter by title"
-                        className="filter-input"
-                    />
-                    <input
-                        type="text"
-                        name="author"
-                        value={filters.author}
-                        onChange={handleFilterChange}
-                        placeholder="Filter by author"
-                        className="filter-input"
-                    />
-                    <input
-                        type="text"
-                        name="tags"
-                        value={filters.tags}
-                        onChange={handleFilterChange}
-                        placeholder="Filter by tags"
-                        className="filter-input"
-                    />
-                </div>
+                <div className="filters-wrapper">
+      <div className="search-container">
+        <div className="search-icon">
+          {/* <Search size={20} /> */}
+          
+        </div>
+        <input
+          type="text"
+          name="search"
+          value={filters.search || ''}
+          onChange={handleFilterChange}
+          placeholder={` Search by title, author, or tags`}
+          className="search-input"
+        />
+      </div>
+      </div>
 
 
                 <ul className="blog-list">
@@ -147,16 +166,17 @@ const BlogList = ({ url, setShowLogin }) => {
                                 <h2>{blog.title}</h2>
                                 <p><strong>Author : </strong><span className='blogText'>{blog.author}</span> </p>
                                 <p><strong>Description : </strong><span className='blogText'> {blog.description} </span></p>
+                                {/* <p><strong>Tags : </strong> <span className='blogText'> {blog.tags.join(', ')} </span> </p> */}
                                 <p><strong>Tags : </strong> <span className='blogText'> {blog.tags.join(', ')} </span> </p>
                                 <p><strong>Date : </strong> <span className='blogText'> {new Date(blog.date).toLocaleDateString()}</span></p>
                                 <div className="blog-actions">
                                     <button onClick={() => increaseBlogLike(blog._id)} className='like-btn'>
                                         {/* <span className='heart'>&#9829;</span>  */}
-                                        <svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30 " fill="red">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30 " fill="red">
                                             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                         </svg>
 
-                                        <span className='heart-number' >{blog.likes}</span>
+                                        <span className='heart-number' >{blog.likes.length}</span>
                                     </button>
 
                                     {(blog.authorEmail && blog.authorEmail === userEmail)

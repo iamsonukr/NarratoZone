@@ -32,9 +32,9 @@ const blogSchema = new mongoose.Schema({
         type: [String], // Array of tags for categorizing the blog
         required: false,
     },
-    likes:{
-        type:Number,
-        default:0
+    likes: {
+        type: [String], // Array of user IDs who liked the blog
+        default: []
     }
 });
 

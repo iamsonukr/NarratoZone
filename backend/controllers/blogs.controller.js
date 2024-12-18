@@ -81,21 +81,59 @@ const removeBlog = async (req, res) => {
 
 // increasing the like of blog
 
-const increaseLike=async(req,res)=>{
-    const blogId=req.params.id
-    try {
-        const incLike=await blogModel.findByIdAndUpdate(blogId,{$inc:{likes:1}},{new:true});
-        if(incLike){
-            res.send({message:"You liked this post"})
-        }else{
-            res.send({message:"Error liking this post"})
-        }
+// const increaseLike=async(req,res)=>{
+//     const blogId=req.params.id
+//     const userEmail=req.body.userEmail
+
+//     try {
+//         const theBlog=await blogModel.findById(blogId)
+//         if(theBlog.includes(userEmail)){
+//             res.json({message:"Your already Liked this blog"})
+//         }else{
+//             theBlog.likes.push(userEmail)
+//             await theBlog.save()
+//             res.json({message:"Blog liked successfully",likes:theBlog.likes.length})
+//         }
+        // const incLike=await blogModel.findByIdAndUpdate(blogId,{$inc:{likes:1}},{new:true});
+        // if(incLike){
+        //     res.send({message:"You liked this post"})
+        // }else{
+        //     res.send({message:"Error liking this post"})
+        // }
         
+//     } catch (error) {
+//         res.send({message:"Error liking this post Check the eligibility"})
+//         console.log(error)
+//     }
+// }
+
+
+const increaseLike = async (req, res) => {
+    const { id } = req.params;
+    const userId = req.body.userEmail; // Extract user ID from the authenticated token
+    console.log("the usermaulis ",userId)
+    try {
+        const blog = await blogModel.findById(id);
+
+        if (!blog) {
+            return res.status(404).json({ message: 'Blog not found.' });
+        }
+
+        // Check if the user has already liked the blog
+        if (blog.likes.includes(userId)) {
+            return res.status(200).json({ message: 'Already liked.', alreadyLiked: true });
+        }
+
+        // Add the user ID to the likes array and save
+        blog.likes.push(userId);
+        await blog.save();
+
+        res.status(200).json({ message: 'Liked successfully.', alreadyLiked: false });
     } catch (error) {
-        res.send({message:"Error liking this post Check the eligibility"})
-        console.log(error)
+        res.status(500).json({ message: 'An error occurred.', error });
     }
-}
+};
+
 
 const updateBlog = async (req, res) => {
     const blogId = req.params.id; // Assuming the blog ID is passed in the URL params

@@ -18,21 +18,11 @@ import ContactPage from './pages/ContactUs/ContactPage';
 
 function App() {
   const[showLogin,setShowLogin]=useState(false)
-  const {userEmail,setToken}=useContext(StoreContext)
 
-  const url='https://resoultpartnersbackend.onrender.com'
-  // const url='http://localhost:5001'
+  // const url='https://resoultpartnersbackend.onrender.com'
+  const url='http://localhost:5001'
   const {token}=useContext(StoreContext)
-  useEffect(()=>{
-    console.log("ROLO")
-    console.log("This is ",userEmail)
-    if(userEmail==''){
-      setToken()
-    }
-    else{
-      console.log("This is ",userEmail)
-    }
-  },[token])
+
 
 
   return (

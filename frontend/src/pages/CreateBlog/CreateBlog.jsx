@@ -97,7 +97,8 @@ const CreateBlog = ({ url,setShowLogin }) => {
         formData.append('title', data.title);
         formData.append('description', data.description);
         formData.append('author', name);
-        formData.append('tags', JSON.stringify(data.tags.split(',').map(tag => tag.trim()))); // Convert tags array to JSON string
+        // formData.append('tags', JSON.stringify(data.tags.split(',').map(tag => tag.trim()))); 
+        data.tags.split(',').map(tag => formData.append('tags[]', tag.trim()));// Convert tags array to JSON string
         formData.append('date', data.date);
         formData.append('id', id);
         formData.append('userEmail', userEmail);
