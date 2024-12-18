@@ -18,7 +18,7 @@ const StoreContextProvider = (prop) => {
     const url=`https://resoultpartnersbackend.onrender.com`
     // const url = 'http://localhost:5001'
 
-    const adminEmail=import.meta.env.VITE_ADMIN_EMAIL
+    const adminEmail='thesonukumar357@gmail.com'
 
     // 1> Fetch the blogs
     const fetchBlogs = async () => {
