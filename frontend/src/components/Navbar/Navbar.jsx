@@ -93,7 +93,7 @@ const Navbar = ({ setShowLogin }) => {
         ) : (
           <div className='navbar-profile'>
             <img src={assets.profile_icon} alt="" /> 
-            <span>Hi {name}!</span>
+            <span className='user-greet'>Hi {name}!</span>
             <div onClick={logout}>
               <img width={30} src={assets.logout_icon} alt="" />
               <p>Logout</p>

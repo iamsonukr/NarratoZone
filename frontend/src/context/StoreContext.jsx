@@ -11,10 +11,14 @@ const StoreContextProvider = (prop) => {
     const [blogs, setBlogs] = useState([]);
     const [blogLoading, setBlogLoading] = useState(false)
 
+    const [blogTrigger,setBlogTrigger]=useState(1)
+
     // constants
-    // const url=import.meta.env.VITE_API_URL
-    const url=`https://resoultpartnersbackend.onrender.com`
+    const url=import.meta.env.VITE_API_URL
+    // const url=`https://resoultpartnersbackend.onrender.com`
     // const url = 'http://localhost:5001'
+
+    const adminEmail=import.meta.env.VITE_ADMIN_EMAIL
 
     // 1> Fetch the blogs
     const fetchBlogs = async () => {
@@ -60,12 +64,17 @@ const StoreContextProvider = (prop) => {
         fetchBlogs()
     }, []);
 
+    useEffect(()=>{
+        fetchBlogs()
+    },[blogTrigger])
+
     const contextValue = {
         // functions
         setToken,
         setName,
         setUserEmail,
         fetchBlogs,
+        setBlogTrigger,
 
         // variables
         url,
@@ -74,6 +83,7 @@ const StoreContextProvider = (prop) => {
         userEmail,
         blogs,
         blogLoading,
+        adminEmail,
     };
 
     return (

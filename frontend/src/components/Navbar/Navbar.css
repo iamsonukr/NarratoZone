@@ -213,6 +213,7 @@ transition-duration:border-bottom 2s;
 /* Just update the media queries section */
 @media (max-width: 768px) {
   .navbar {
+    width: 100vw;
     padding: 1rem 3%;
   }
 
@@ -230,6 +231,8 @@ transition-duration:border-bottom 2s;
     transition: right 0.3s ease;
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.1);
   }
+
+  
 
   .navbar-menu.active {
     right: 0;
@@ -291,5 +294,11 @@ transition-duration:border-bottom 2s;
 
   .logo {
     height: 32px;
+  }
+}
+
+@media (max-width:728px) {
+  .user-greet{
+    display: none;
   }
 }

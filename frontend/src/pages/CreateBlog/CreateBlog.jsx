@@ -13,7 +13,7 @@ const   CreateBlog = ({setShowLogin }) => {
     const [imagePreview, setImagePreview] = useState(null);
     const [submitting,setSubmitting]=useState(false)
     const navigate = useNavigate()
-    const {userEmail ,name,setToken,url,fetchBlogs} =useContext(StoreContext)
+    const {userEmail ,name,setToken,url,fetchBlogs,setBlogTrigger} =useContext(StoreContext)
 
     const [data, setData] = useState({
         title: "",
@@ -111,15 +111,14 @@ const   CreateBlog = ({setShowLogin }) => {
         try {
             let response;
             if (id) {
-                // Update existing blog
                 response = await axios.post(`${url}/api/blog/update/${id}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 });
                 toast.success("Blog updated successfully");
+      
             } else {
-                // Create new blog
                 response = await axios.post(`${url}/api/blog/create`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -133,14 +132,15 @@ const   CreateBlog = ({setShowLogin }) => {
             toast.error("An error occurred while processing your request.");
         } finally {
             setSubmitting(false); // Reset submitting state
+            setBlogTrigger(prev=>prev+1)
         }
     };
     
 
     return (
-        <div className="add">
+        <div className="add" >
             <form className="flex-col" onSubmit={handleSubmit}>
-                <div className="add-img-upload flex-col">
+                <div className="add-img-upload flex-col" style={{marginTop:60}}>
                     <p>Upload Image</p>
                     <label htmlFor="image" className="image-upload-label">
                         <img

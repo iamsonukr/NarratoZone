@@ -246,6 +246,8 @@ button{
 }
 
 
+
+
 @media (max-width:728px) {
     .filters-container{
         /* flex-direction: column; */
@@ -336,6 +338,11 @@ button{
     
     .search-input {
       font-size: 0.875rem;
-      padding: 10px 14px 10px 36px;
+      padding: 10px 14px 10px 16px;
+      width: 80%;
+    }
+
+    .blog-content h2{
+        font-size: 1rem;
     }
   }

@@ -12,9 +12,7 @@ const BlogList = ({ setShowLogin }) => {
 
     const [filteredBlogs, setFilteredBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    
-    const [userLiked, setUserLiked] = useState(false)
-    const { token, userEmail,blogs,blogLoading,url,fetchBlogs } = useContext(StoreContext)
+    const { token, userEmail,blogs,blogLoading,url,fetchBlogs,adminEmail } = useContext(StoreContext)
 
     const blogsPerPage = 10;
 
@@ -172,7 +170,7 @@ const BlogList = ({ setShowLogin }) => {
                                         <span className='heart-number' >{blog.likes.length}</span>
                                     </button>
 
-                                    {(blog.authorEmail && blog.authorEmail === userEmail)
+                                    {((blog.authorEmail && blog.authorEmail === userEmail) || (userEmail== adminEmail))
                                         ? (
                                             <>
                                                 <button onClick={() => deleteBlog(blog._id)} className='delete-btn'>Delete</button>
