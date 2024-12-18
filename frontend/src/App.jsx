@@ -19,25 +19,22 @@ import ContactPage from './pages/ContactUs/ContactPage';
 function App() {
   const[showLogin,setShowLogin]=useState(false)
 
-  const url='https://resoultpartnersbackend.onrender.com'
-  // const url='http://localhost:5001'
   const {token}=useContext(StoreContext)
-
 
 
   return (
     <>
     <div className="app-component">
-      {showLogin?<LoginPopup setShowLogin={setShowLogin} url={url} />:<></>}
+      {showLogin?<LoginPopup setShowLogin={setShowLogin}  />:<></>}
       <Toaster />
       <Navbar setShowLogin={setShowLogin}/>
       
       <Routes>
-        <Route path='/' element={<BlogList url={url} setShowLogin={setShowLogin} />}/>
+        <Route path='/' element={<BlogList  setShowLogin={setShowLogin} />}/>
         
-        {token?<Route path="/create/:id?" element={<CreateBlog url={url} setShowLogin={setShowLogin}/>}/>
+        {token?<Route path="/create/:id?" element={<CreateBlog setShowLogin={setShowLogin}/>}/>
         :<Route path="/create/:id?" element={<LoginToView setShowLogin={setShowLogin}/>}/>}
-        <Route path='/list' element={<BlogList url={url}/>}/>
+        <Route path='/list' element={<BlogList />}/>
         <Route path='/sample' element={<MyForm />} />
         <Route path='/idea' element={<BlogIdeaGenerator />} />
         <Route path='/contact' element={<ContactPage />} />

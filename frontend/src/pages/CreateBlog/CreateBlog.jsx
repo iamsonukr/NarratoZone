@@ -6,14 +6,14 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
-const CreateBlog = ({ url,setShowLogin }) => {
+const   CreateBlog = ({setShowLogin }) => {
 
     // variables
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [submitting,setSubmitting]=useState(false)
     const navigate = useNavigate()
-    const {userEmail ,name,setToken} =useContext(StoreContext)
+    const {userEmail ,name,setToken,url} =useContext(StoreContext)
 
     const [data, setData] = useState({
         title: "",
@@ -31,7 +31,7 @@ const CreateBlog = ({ url,setShowLogin }) => {
     const fetchBlogData = async () => {
         try {
             const response = await axios.post(`${url}/api/blog/getsingle/${id}`);
-            console.log(response)
+  
             if (response.data.success) {
                 const blog = response.data.data;
                 setData({

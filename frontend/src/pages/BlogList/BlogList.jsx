@@ -3,40 +3,25 @@ import axios from 'axios';
 import './BlogList.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { Search } from 'lucide-react';
+
 
 import { StoreContext } from '../../context/StoreContext';
 import Header from '../../components/Header/Header';
 
-const BlogList = ({ url, setShowLogin }) => {
-    const [blogs, setBlogs] = useState([]);
+const BlogList = ({ setShowLogin }) => {
+
     const [filteredBlogs, setFilteredBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [loading, setLoading] = useState(false)
-    const { token, userEmail } = useContext(StoreContext)
+    
+    const [userLiked, setUserLiked] = useState(false)
+    const { token, userEmail,blogs,blogLoading,url } = useContext(StoreContext)
 
     const blogsPerPage = 10;
 
-    const [filters, setFilters] = useState({ search:"" });
+    const [filters, setFilters] = useState({ search: "" });
     const navigate = useNavigate();
 
-    const fetchBlogs = async () => {
-        setLoading(true)
-        try {
-            const response = await axios.get(`${url}/api/blog/blogs`);
-            setBlogs(response.data.data);
-            setFilteredBlogs(response.data.data);
-            setLoading(false)
-        } catch (error) {
-            toast.error("Error fetching blogs:", error);
-            setLoading(false)
-        }
-    };
 
-    useEffect(() => {
-        fetchBlogs();
-
-    }, []);
 
     const handleFilterChange = (e) => {
         setFilters({ search: e.target.value });
@@ -77,53 +62,30 @@ const BlogList = ({ url, setShowLogin }) => {
                 } catch (error) {
                     toast.error("Blog Deletion Failed");
                 }
-            } else {
-
-                toast.success("Deletion Canceled 😀")
-
             }
 
         }
 
     };
-
-    // const increaseBlogLike = async (id) => {
-    //     if (!token) {
-    //         setShowLogin(true)
-    //     } else {
-    //         try {
-    //             await axios.post(`${url}/api/blog/like/${id}`,userEmail);
-    //             fetchBlogs();
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-
-    //     }
-    // };
-
 
     const increaseBlogLike = async (id) => {
         if (!token) {
             setShowLogin(true);
             return;
         }
-    
         try {
-            const response = await axios.post(`${url}/api/blog/like/${id}`, {userEmail});
-           
-    
+            const response = await axios.post(`${url}/api/blog/like/${id}`, { userEmail });
             if (response.data.alreadyLiked) {
-                console.log('You have already liked this blog.');
+                toast.error('You have already liked this blog.');
             } else {
-                console.log('Blog liked successfully.');
-                fetchBlogs(); // Refresh the blogs to show the updated like count
+                fetchBlogs(); 
             }
-            toast(response.message)
+
         } catch (error) {
             console.log(error);
         }
     };
-    
+
 
     const gotoUpdate = (id) => {
         if (!token) {
@@ -136,26 +98,26 @@ const BlogList = ({ url, setShowLogin }) => {
     return (
         <>
             <Header />
-            {loading ? <h1 className='loadingText' >Please wait Blogs are loading</h1> : ""}
+            {blogLoading ? <h1 className='loadingText' >Please wait Blogs are loading</h1> : ""}
             <div className="blog-list-container">
                 {/* <h1>Blog List</h1> */}
 
                 <div className="filters-wrapper">
-      <div className="search-container">
-        <div className="search-icon">
-          {/* <Search size={20} /> */}
-          
-        </div>
-        <input
-          type="text"
-          name="search"
-          value={filters.search || ''}
-          onChange={handleFilterChange}
-          placeholder={` Search by title, author, or tags`}
-          className="search-input"
-        />
-      </div>
-      </div>
+                    <div className="search-container">
+                        <div className="search-icon">
+                            {/* <Search size={20} /> */}
+
+                        </div>
+                        <input
+                            type="text"
+                            name="search"
+                            value={filters.search || ''}
+                            onChange={handleFilterChange}
+                            placeholder={` Search by title, author, or tags`}
+                            className="search-input"
+                        />
+                    </div>
+                </div>
 
 
                 <ul className="blog-list">
@@ -172,9 +134,37 @@ const BlogList = ({ url, setShowLogin }) => {
                                 <div className="blog-actions">
                                     <button onClick={() => increaseBlogLike(blog._id)} className='like-btn'>
                                         {/* <span className='heart'>&#9829;</span>  */}
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30 " fill="red">
-                                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                        </svg>
+                                        {
+                                            blog.likes.includes(userEmail) ? (
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    width="30"
+                                                    height="30"
+                                                    fill="red"
+                                                >
+                                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                                </svg>
+                                            ) : (
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24"
+                                                    width="30"
+                                                    height="30"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                >
+                                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 1 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                                </svg>
+                                            )
+                                        }
+
+
+
+
 
                                         <span className='heart-number' >{blog.likes.length}</span>
                                     </button>
@@ -186,7 +176,7 @@ const BlogList = ({ url, setShowLogin }) => {
                                                 <button onClick={() => gotoUpdate(blog._id)} className='update-btn'>Update</button>
                                             </>
                                         )
-                                        : <>{console.log(blog, userEmail)}</>
+                                        : <></>
                                     }
 
                                     {/* <button onClick={() => deleteBlog(blog._id)} className='delete-btn'>Delete</button>

@@ -5,12 +5,12 @@ import { StoreContext } from '../../context/StoreContext'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 
-const LoginPopup = ({setShowLogin ,url}) => {
+const LoginPopup = ({setShowLogin }) => {
 
   // this form is using two state One to show / hide login form -> Second to switch between login and sign in form
   const [currState,setCurrState]=useState("Login")
 
-  const {setName,name,setToken,userEmail,setUserEmail}=useContext(StoreContext)
+  const {setName,name,setToken,userEmail,setUserEmail,url}=useContext(StoreContext)
 
   // storing state of input fields
   const [data,setData]=useState(
