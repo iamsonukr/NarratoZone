@@ -14,8 +14,8 @@ const StoreContextProvider = (prop) => {
     const [blogTrigger,setBlogTrigger]=useState(1)
 
     // constants
-    const url=import.meta.env.VITE_API_URL
-    // const url=`https://resoultpartnersbackend.onrender.com`
+    // const url=import.meta.env.VITE_API_URL
+    const url=`https://resoultpartnersbackend.onrender.com`
     // const url = 'http://localhost:5001'
 
     const adminEmail=import.meta.env.VITE_ADMIN_EMAIL
