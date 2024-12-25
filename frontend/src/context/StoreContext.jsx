@@ -15,8 +15,8 @@ const StoreContextProvider = (prop) => {
 
     // constants
     // const url=import.meta.env.VITE_API_URL
-    // const url=`https://resoultpartnersbackend.onrender.com`
-    const url = 'http://localhost:5000'
+    const url=`https://resoultpartnersbackend.onrender.com`
+    // const url = 'http://localhost:5000'
 
     const adminEmail='thesonukumar357@gmail.com'
 
