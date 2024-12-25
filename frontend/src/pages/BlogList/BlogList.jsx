@@ -124,7 +124,7 @@ const BlogList = ({ setShowLogin }) => {
                 <ul className="blog-list">
                     {currentBlogs.map(blog => (
                         <li key={blog._id} className="blog-card">
-                            <img src={`${url}/images/${blog.image}`} alt={blog.title} className="blog-image" />
+                            <img src={blog.image} alt={blog.title} className="blog-image" />
                             <div className="blog-content">
                                 <h2>{blog.title}</h2>
                                 <p><strong>Author : </strong><span className='blogText'>{blog.author}</span> </p>

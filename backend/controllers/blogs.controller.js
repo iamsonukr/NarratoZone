@@ -13,7 +13,8 @@ const listBlog = async (req, res) => {
 
 // Create a new blog
 const createBlog = async (req, res) => {
-    let image_filename= `${req.file.filename}`
+    let image_filename= `${req.file.path}`
+    console.log(image_filename)
     console.log(req.body)
 
 
@@ -135,7 +136,7 @@ const increaseLike = async (req, res) => {
 };
 
 
-const updateBlog = async (req, res) => {
+const       updateBlog = async (req, res) => {
     const blogId = req.params.id; // Assuming the blog ID is passed in the URL params
     try {
         // Find the blog by its ID
@@ -149,7 +150,7 @@ const updateBlog = async (req, res) => {
         blog.description = req.body.description || blog.description;
         blog.date = req.body.date || blog.date; // Update date if provided
         if (req.file) { // If a new image is provided
-            blog.image = req.file.filename;
+            blog.image = req.file.path;
         }
         blog.author = req.body.author || blog.author;
         blog.tags = req.body.tags || blog.tags;

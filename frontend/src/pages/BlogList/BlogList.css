@@ -260,6 +260,9 @@ button{
         display: flex;
         flex-direction: column;
     }
+    .blog-card{
+        padding: 15px;
+    }
 }
 
 

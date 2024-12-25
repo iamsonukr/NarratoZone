@@ -1,8 +1,8 @@
 import express from 'express'
 import connectDB from './config/db.connect.js'
 import dotenv from 'dotenv';
-import { blogRouter } from './routes/blogs.route.js';
-import {userRouter} from './routes/user.route.js';
+import { blogRouter } from './routes/blogs.routes.js';
+import {userRouter} from './routes/user.routes.js';
 import cors from 'cors'
 import { ideaRouter } from './routes/idea.routes.js';
 dotenv.config();
@@ -26,6 +26,6 @@ app.use('/images',express.static('uploads'))
 
 
 
-app.listen(5001,()=>{
+app.listen(5000,()=>{
     console.log("serxver is listening ")
 })

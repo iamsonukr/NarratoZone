@@ -44,7 +44,7 @@ const   CreateBlog = ({setShowLogin }) => {
                 });
                 // Handle existing image
                 if (blog.image) {
-                    setImagePreview(`${url}/images/${blog.image}`); // Set the image preview URL
+                    setImagePreview(blog.image); // Set the image preview URL
                     console.log("Image preview is " + imagePreview)
                 }
             } else {
